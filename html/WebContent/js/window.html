@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/html/js/window.html</title>
+</head>
+<script>
+    window.addEventListener("load", function(){
+        let intervalId;
+        let btOpenObj = document.querySelector("button:first-child");
+        btOpenObj.addEventListener("click", function(){
+            let url='../login.html';//url
+            let name='login';//이름
+            let option='width=250px height=250px';//크기
+            window.open(url, name, option);
+        });
+
+        let btIntervalObj = document.querySelector("button:nth-child(2)");
+        let btClearIntervalObj = document.querySelector("button:nth-child(3)");
+        let btTimeoutObj = document.querySelector("button:nth-child(4)");
+        btClearIntervalObj.addEventListener("click", function(){
+            clearInterval(intervalId);
+        });
+        let divObj = document.querySelector("div");
+        btIntervalObj.addEventListener("click", function(){
+            let interval = 1000;
+            intervalId = setInterval(() => {
+                console.log("1초 지났습니다.");
+                let currTime = new Date();
+                let dateStr = currTime.getFullYear()+"년도 "+currTime.getMonth()+"월 "+currTime.getDay()+"일 "+currTime.getHours()+":"+currTime.getMinutes()+":"+currTime.getSeconds();
+                divObj.innerHTML = dateStr;
+            }, interval);
+        });
+
+        btTimeoutObj.addEventListener(`click`, function(){
+                setTimeout(function(){
+                let url='../login.html';//url
+                let name='login';//이름
+                let option='width=250px height=250px';//크기
+                //window.open(url, name, option);
+                open(url, name, option);
+            }, 5000);
+        });
+
+
+    });
+</script>
+<body>
+    <button>open</button>
+    <button>setInterval</button>
+    <button>clearInterval</button>
+    <button>timeout</button>
+    <div></div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+        form > input[value="가입하기"]{
+            /* visibility: hidden; */
+            display: none;
+        }
+        td > label::after{
+            content:" : ";
+        }
+        fieldset{
+            border:none;
+            margin:0;
+            padding:0;
+        }
+    </style>
+    <script>
+        $(function(){
+            let $btDupchkObj = $('#btDupchk');
+            let $btSignup = $('#btSignup');
+            let $txtId = $('#txtId');
+
+            $btDupchkObj.click(function(){
+                // /html/idDupChk.jsp ajax로 요청
+                // 전송할 데이터는 입력한 id값
+                // 응답성공
+
+                $.ajax({
+                    url : '/html/idDupChk.jsp',
+                    data : "id="+$txtId.val(),
+                    success : function(jsonObj){
+                        if(jsonObj.status == 1){
+                            $btSignup.removeClass('hide');
+                            $btSignup.show(); //이건 display 처리
+                        } else{
+                            alert(jsonObj.msg);
+                        }
+                    }
+                });               
+                return false;
+            });
+
+            // $btDupchkObj.click(function(){
+            //     console.log('Dupchk');
+            //     // $btSignup.css("visibility", "visible");
+            //     $btSignup.show(); //이건 display 처리
+            // });
+
+            $txtId.focus(function(){
+                // $btSignup.css("visibility", "hidden");
+                $btSignup.hide(); //이것도 display 처리
+                this.select();
+            });
+
+            let $form = $('form');
+            $form.submit(function(ev){
+                $form.attr('action', '/html/signup.jsp');
+                let $pwd = $('#password');
+                let $pwdChk = $('#password-check');
+                if($pwd.val() != $pwdChk.val()){
+                    alert('비밀번호가 일치하지 않습니다.');
+                    $pwd.select();
+                    $pwd.focus();
+                }
+                
+                $.ajax({
+            		url: '/html/signup.jsp',
+            		data: $('form').serialize(),
+            		success: function(jsonObj){
+            			if(jsonObj.status == 1){
+            				alert(jsonObj.msg);
+            				location.href="/html/jq/testpage.html";
+            			}else{
+            				alert(jsonObj.msg);
+            			}
+            		}
+            	});
+                return false; //기본이벤트 막기(preventDefault), 이벤트 전파 중지(stopPropagation)
+            });
+        });
+
+
+
+        // window.onload = function(){
+        //     let dupId = document.getElementById("btDupChk");
+        //     let btSignup = document.getElementById("btSignup");
+        //     let txtId = document.getElementById("txtId");
+        //     let form = document.querySelector("form");
+        //     let txtPassword = document.getElementById("password");
+        //     let txtPasswordCheck = document.getElementById("password-check");
+            
+        //     btSignup.addEventListener("click", function(e){
+        //     	e.preventDefault();
+        //     	form.action = "/html/signup.jsp";            	
+        //             if(txtPassword.value==txtPasswordCheck.value){
+        //             alert('비밀번호가 서로 다릅니다.');
+        //             txtPassword.select();
+        //             txtPassword.focus();
+        //         }
+        //     });
+            
+        //     // btSignup.addEventListener("click", function(event){
+        //     //     event.preventDefault();
+        //     //     form.action = "/html/signup.jsp";
+        //     //     console.log(form.action);
+        //     // });
+
+        //     dupId.addEventListener("click", function(){
+		// 		form.action = "/html/idDupChk.jsp";
+        //         //JQuery 문법으로 AJAX사용
+        //     	console.log("in btDupChk : clicked");
+        //         btSignup.style.visibility='visible';
+        //         txtId.select();
+                
+        //     });
+
+            
+        // };
+    </script>
+</head>
+<body>
+    <form action="" autocomplete="off">
+        <table>
+            <tr>
+                <td><label for="">ID</label></td>
+                <td><input type="text" id="txtId" autofocus required></td>
+                <td><input id="btDupchk" type="button" value="중복체크" ></td>
+            </tr>
+            <tr>
+                <td><label for="password">비밀번호</label></td>
+                <td><input type="password" name="password" id="password" required></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="password-check">비밀번호 확인</label></td>
+                <td><input type="password" name="password-check" id="password-check" required></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="">이름</label></td>
+                <td><input type="text" required></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="">성별</label></td>
+                <td colspan="2">
+                	<fieldset>
+                    	<input type="radio" name="gender" id="male" value="male" checked><label for="male">남</label>
+                    	<input type="radio" name="gender" id="female" value="female"><label for="female">여</label>
+                	</fieldset>
+                </td>
+            </tr>            
+        </table>        
+            <input type="submit" id="btSignup" value="가입하기">
+            <input type="reset" value="CLEAR">
+    </form>
+    
+</body>
+</html>

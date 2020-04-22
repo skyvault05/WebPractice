@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<style>
+ .a{border:solid red 5px}
+ span{width:150px; color:red}
+ input{border:solid gray 1px}
+ table{width:100%}
+ th,td{border:1px gray solid; text-align:center;padding:3px}
+ h2{text-align:center}
+ 
+</style>
+
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+	  //1. 아이디 중복체크
+	  $("#id").keyup(function(){
+		  if($(this).val()==""){
+			  $("span").text("    ");
+			  return;
+		  }
+		  
+		  $.ajax({
+			  type:"post",
+			  url:"../idCheckServlet",
+		      dataType: "text",//서버에게 받은 응답결과 type(text, xml, html, json)
+		      data : {id: $(this).val() } ,//서버에게 전송할 parameter
+		      success: function(result){
+		    	  $("span").html(result);
+		      } ,
+		      error : function(err){
+		    	  console.log(err+"=> 오류발생");
+		      }
+		  });//ajax끝
+	  });//keyup끝
+	  
+	  //////////////////////////
+	  //2. 등록하기 or 수정하기 
+	  $("#btn").click(function(){
+		  var state=true;// true이면 등록하고 아니면 등록안한다.
+		  //값 입력 유무 체크
+		  $("input[type=text]").each(function(index, item){
+			  //alert(index +  " "+item)
+			  if($(this).val()==""){
+				  alert("값을 입력하세요.");
+				  $(this).focus();
+				  state=false;
+				  return false; //false를 리턴하면 each의 함수를 빠져나가라.
+			  }
+		  });//each끝
+		  
+		  //모두 값이 있다면 등록 or 수정 한다.
+		  if(state){
+			  var urlAddr="../insertServlet";
+			  if($(this).val()=="수정하기"){
+				  urlAddr="../updateServlet";
+				//id박스를 활성화
+				  $("#id").removeAttr("readonly");
+				  
+				  //span보이기
+				  $("span").show();
+				  
+				  //버튼 글씨 변경
+				  $(this).val("가입하기");
+			  }
+			  
+			  $.ajax({
+				  type:"post",
+				  url:urlAddr,
+			      dataType: "text",//서버에게 받은 응답결과 type(text, xml, html, json)
+			      data : $("#inForm").serialize() ,//폼전송
+			      success: function(result){
+			    	   if(result > 0){
+			    		  //alert("등록되었습니다.");
+			    		  //화면 지우기
+			    		  $("input[type=text]").val("");
+			    		  $("span").text("중복확인");
+			    		  $("input[name=id]").focus();
+			    		  //전체검색 
+			    		  selectAll();
+			    	   }else{
+			    		alert("오류가 발생하였습니다.^^");   
+			    	   }
+			      } ,
+			      error : function(err){
+			    	  console.log(err+"=> 오류발생");
+			      }
+			  });//ajax끝
+		    
+		  }//state End
+		  
+	  })//click End
+	  
+	  //////////////////
+	  //3. 전체검색
+	  function selectAll(){
+		  $.ajax({
+			  type:"get",
+			  url:"../selectServlet",
+		      dataType: "json",//서버에게 받은 응답결과 type(text, xml, html, json)
+		      //data : {id: $(this).val() } ,//서버에게 전송할 parameter
+		      success: function(result){
+	   		        var str="";
+	   		         $.each(result, function(index, item){
+	   		        	 str+="<tr>";
+	   		        	 str+="<td>"+(index+1)+"</td>";
+	   		        	 str+="<td><a href='#'>"+item.id+"</a></td>";
+	   		        	 str+="<td>"+item.name+"</td>";
+	   		        	 str+="<td>"+item.age+"</td>";
+	   		        	 str+="<td>"+item.tel+"</td>";
+	   		        	 str+="<td>"+item.addr+"</td>";
+	   		        	 str+="<td><input type='button' value='삭제' name='"+item.id+"' ></td>";
+	   		        	 str+="</tr>";
+	   		         })
+	   		         
+	   		        $("#listTable tr:gt(0)").remove();
+	   		        $("#listTable tr:eq(0)").after(str);
+	   		        $("a").css("textDecoration", "none");
+		      } ,
+		      error : function(err){
+		    	  console.log(err+"=> 오류발생");
+		      }
+		  });//ajax끝
+	  }
+	  
+	  //////////////////
+	  //4. 삭제하기 - 동적으로 생성된  element 
+	  $(document).on("click","[value='삭제']" , function(){
+		  // 현재 버튼의 name의 value를 가져오기
+		  $.ajax({
+		   type: "post",
+		   url : "../deleteServlet",
+		   dataType : "text",// 0 or 1
+		   data : {"id" : $(this).attr("name")}, //
+		   success : function(result){//text
+			 if(result>0){
+				 selectAll();
+			 }else{
+				 alert("삭제되지 않았습니다.");
+			 }
+		   } ,
+		   error : function(err){
+			   console.log(err+" 오류발생");
+		   } 
+		 })//ajax끝
+	  });
+	  
+	  /////////////////
+	  //5.수정하기
+	  $(document).on("click","#listTable > tbody > tr > td > a" , function(){
+		  //alert( $(this).text() )
+		  $("#id").val($(this).text());
+		  $("#name").val($(this).parent().next().text());
+		  $("#age").val($(this).parent().next().next().text());
+		  $("#tel").val($(this).parent().next().next().next().text());
+		  $("#addr").val($(this).parent().next().next().next().next().text());
+	  
+	       //id박스 비활성
+	       $("#id").attr("readonly", "readonly");
+	       
+	       //span 감추기
+	       $("span").hide();
+	       
+	       //버튼 글씨 수정하기로 변경
+	       $("#btn").val("수정하기");
+	  
+	  });
+	  
+	  
+	  //////////////////////////
+	  selectAll();
+	  
+	  setInterval( selectAll , 5000);//5초마다 갱신
+	  
+  })//ready끝
+
+</script>
+
+
+</head>
+<body>
+<h2>회원정보 입력 </h2>
+
+<form name="inForm" method="post" id="inForm">
+<table cellspacing="0">
+	<tr bgcolor="pink" >
+	    <th>아이디</th>
+		<th>이름</th>
+		<th>나이</th>
+		<th>전화번호</th>	
+		<th>주소</th>
+	</tr>
+	<tr>
+	    <td style="text-align:left"><input type="text" size="8" name="id" id="id"> <span>중복결과여부</span></td>
+		<td><input type="text" size="8" name="name" id="name"></td>
+		<td><input type="text" size="4" name="age" id="age"></td>
+		<td><input type="text" size="12" name="tel" id="tel"></td>
+		<td><input type="text" size="30" name="addr" id="addr"></td>
+	</tr>
+	<tr>
+		<td colspan="5" align="center"> 
+			<input type="button" value="가입하기"  id="btn">
+		</td>
+	</tr>
+</table>
+<br>
+<hr color="red">
+
+<h2> 고객 리스트 !  </h2>
+<table  id="listTable" cellspacing="0">
+	<tr bgcolor="pink">
+	   <th>번호</th>
+	   <th>아이디</th>
+		<th>이름</th>
+		<th>나이</th>
+		<th>전화번호</th>	
+		<th>주소</th>
+		<th>삭제</th>
+	</tr>
+</table>
+
+
+</body>
+</html>

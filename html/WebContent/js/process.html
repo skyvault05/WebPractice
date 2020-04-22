@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>process</title>
+<script>
+	console.log(1);	
+
+	function init(){
+		let pObj1 = document.getElementById("p1");
+		console.log(pObj1.innerHTML);
+		// pObj.addEventListener("click", function(){console.log("click")});
+		let pObj2 = document.querySelector("h1");//#h1
+		
+		pObj1.onclick = function(){
+			console.log("conclick");
+			if(pObj2.style.visibility == "hidden"){
+				pObj2.style.visibility = "visible";
+			} else{
+				pObj2.style.visibility = "hidden";
+			}			
+		}
+
+		pObj2.onclick = (function(){
+			console.log("h1");
+		})
+
+
+
+	}
+
+	window.addEventListener("load",init);
+
+	
+</script>
+</head>
+<body>
+
+<script>
+	console.log(2);
+</script>
+
+<p id="p1">단락1</p>
+<h1 id="h1">h1</p>
+	
+<script>
+	console.log(3);
+</script>
+
+</body>
+</html>

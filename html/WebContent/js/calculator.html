@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator.html</title>
+</head>
+<script>
+    function init(){
+        let n, op, result=0, dpStr="", flag=true;
+        let num = document.querySelectorAll(".num");
+        let operator = document.querySelectorAll(".op");
+        let calc = document.querySelector(".calc");
+        let clear = document.querySelector(".clear");
+
+        let dp = document.querySelector("textarea");
+        
+        // console.log(num[0].innerHTML)
+
+
+
+        for(i=0; i<num.length; i++){
+            num[i].addEventListener("click", numClick(i));
+        };
+
+        function numClick(i){
+            return function(){
+                if(flag){
+                    n=num[i].innerHTML;
+                    dpStr+=n;
+                    dp.innerHTML = dpStr+"\n"+n;
+
+                    switch(op){
+                        case "/":
+                            result/=number(n);
+                            break;
+                        case "X":
+                            result*=number(n);
+                            break;
+                        case "-":
+                            result-=number(n);
+                            break;
+                        case "+":
+                            result+=number(n);
+                            break;
+                        default:
+                            result=number(n);
+                    }
+
+                    flag = false;
+                }                
+            }
+        }
+
+        for(i=0; i<operator.length; i++){
+            operator[i].addEventListener("click", opClick(i));
+        }
+
+        function opClick(i){
+            return function(){
+                if(!flag){
+                    op=operator[i].innerHTML;
+                    dpStr+=op;
+                    dp.innerHTML = dpStr+"\n"+op;
+                    flag=true;
+                }
+                
+            }
+        }
+
+        clear.addEventListener('click', function(){            
+            dpStr=""
+            op="";
+            result=0;
+            n=null;
+            dp.innerHTML = "0"+"\n"+"0";
+            flag=true;
+        });
+
+        calc.addEventListener('click', function(){            
+            dp.innerHTML = dpStr+"\n"+result;
+            dpStr="";
+            result=0;
+            op="";
+            n=null;
+            flag=true;
+        });
+
+        
+        
+    };
+    window.addEventListener("load", init);
+</script>
+<body>
+    <table>
+        <tr>
+            <td colspan="4"><textarea id="result"></textarea></td>
+        </tr>
+        <tr>
+            <td><button id="7" class="num">7</button></td>
+            <td><button id="8" class="num">8</button></td>
+            <td><button id="9" class="num">9</button></td>
+            <td><button id="/" class="op">/</button></td>
+        </tr>
+        <tr>
+            <td><button id="4" class="num">4</button></td>
+            <td><button id="5" class="num">5</button></td>
+            <td><button id="6" class="num">6</button></td>
+            <td><button id="X" class="op">X</button></td>
+        </tr>
+        <tr>
+            <td><button id="1" class="num">1</button></td>
+            <td><button id="2" class="num">2</button></td>
+            <td><button id="3" class="num">3</button></td>
+            <td><button id="-" class="op">-</button></td>
+        </tr>
+        <tr>
+            <td><button id="0" class="num">0</button></td>
+            <td><button id="c" class="clear">C</button></td>
+            <td><button id="=" class="calc">=</button></td>
+            <td><button id="+" class="op">+</button></td>
+        </tr>
+    </table>
+    
+</body>
+</html>

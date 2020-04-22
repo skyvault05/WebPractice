@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js/Login</title>
+    <style>
+        table {
+        	border: 1px solid;
+            border-radius: 5px;            
+        }
+        .label {
+        	height: 1.5em;
+        	border-bottom: 1px dotted;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            let txtId = document.querySelector("input[type=text]");
+            let btnSubmit = document.querySelector("input[type=submit]"); 
+            let chkId = document.querySelector("input[type=checkbox]");           
+
+
+            if(localStorage.getItem("id")!=null){
+                chkId.checked = true;
+            }
+
+            if(localStorage.getItem("id")!=null){
+                txtId.value = localStorage.getItem("id");                    
+                };
+            
+            
+
+            btnSubmit.addEventListener("click", function(){                
+                if(chkId.checked){
+                    localStorage.setItem("id", txtId.value);
+                }else{
+                    localStorage.removeItem("id");
+                };
+                
+            });
+        }
+    </script>
+</head>
+<body>
+    <form action="/html/login.jsp">
+        <table>
+            <tr>
+                <td class="label">ID</td>
+                <td><input type="text" placeholder="id" id="txt-id"></td>
+            </tr>
+            <tr>
+                <td class="label">비밀번호</td>
+                <td><input type="text" placeholder="password"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="checkbox" name="saveid" id="saveid">
+                    ID저장하기
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="로그인"></td>
+                <td><input type="reset" value="CLEAR"></td>
+            </tr>
+            <tr>
+                <td><a href="#">id찾기</a></td>
+                <td><a href="#">비밀번호찾기</a></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

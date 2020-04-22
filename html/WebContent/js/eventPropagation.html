@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/html/js/eventPropagation.html</title>
+<style>
+    div{
+        border: 1px solid;
+        width:300;
+        background: aqua;
+    }
+    a{
+        background: yellow;
+        text-decoration: none;
+    }
+</style>
+<script>
+    window.addEventListener("load", function(){
+        let aObj = document.querySelector("a");
+        aObj.addEventListener("click", function(event){
+            alert("클릭되었습니다.");
+            event.preventDefault();
+            this.style.backgroundColor='grey';
+            event.stopPropagation();
+        });
+
+        let divObj = document.querySelector("div");
+        divObj.addEventListener("click", function(){
+            this.style.backgroundColor="red";
+        });
+    })
+</script>
+</head>
+<body>
+	<div>
+        <a href="http://www.daum.net">다음</a>
+    </div>
+</body>
+</html>

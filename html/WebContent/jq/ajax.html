@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../lib/jquery-3.4.1.min.js"></script>
+<title>ajax.html</title>
+<script>
+    $(function(){
+        
+        $('form').submit(function(){
+            let action = $(this).attr('action');
+            $.ajax({
+                url : action,
+                success : function(responseData){
+                    // alert(responseData);
+                    $('div').html(responseData);
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</head>
+<body>
+    <div id="result" style="width:300px; height:100px;"></div>
+    <form action="../signup.jsp">
+        <button>가입</button>
+    </form>
+</body>
+</html>

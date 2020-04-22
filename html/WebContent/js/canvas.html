@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/html/js/canvas.html</title>
+
+<script>
+    window.addEventListener("load", function(){
+        let btLine = document.querySelector("#line");
+        let canvasObj = document.querySelector("canvas");
+        let ctx = canvasObj.getContext("2d");
+        btLine.addEventListener("click", function(){
+            let x=0, y=0;
+            ctx.moveTo(x, y);
+            ctx.lineTo(x+150, y+100);
+            ctx.stroke();
+        })
+    })
+</script>
+</head>
+<body>
+    <canvas width="500px" height="500px"></canvas>
+    <button id="line">선긋기</button>
+</body>
+</html>

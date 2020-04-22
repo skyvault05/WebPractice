@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        form > input[value="가입하기"]{
+            visibility: hidden;
+        }
+        td > label::after{
+            content:" : ";
+        }
+        fieldset{
+            border:none;
+            margin:0;
+            padding:0;
+        }
+    </style>
+    
+</head>
+<body>
+    <form action="" autocomplete="off">
+        <table>
+            <tr>
+                <td><label for="">ID</label></td>
+                <td><input type="text" autofocus required></td>
+                <td><input type="button" value="중복체크"></td>
+            </tr>
+            <tr>
+                <td><label for="">비밀번호</label></td>
+                <td><input type="password" name="password" id="password" required></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="">비밀번호 확인</label></td>
+                <td><input type="password" name="password-check" id="password-check" required></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="">이름</label></td>
+                <td><input type="text" required></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="">성별</label></td>
+                <td colspan="2">
+                	<fieldset>
+                    	<input type="radio" name="gender" id="male" value="male" checked><label for="male">남</label>
+                    	<input type="radio" name="gender" id="female" value="female"><label for="female">여</label>
+                	</fieldset>
+                </td>
+            </tr>            
+        </table>        
+            <input type="submit" value="가입하기">
+            <input type="reset" value="CLEAR">
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.4.1.min.js"></script>
+
+    <title>eventhandler.html</title>
+</head>
+<style>
+    #subject2 {
+        visibility: hidden;
+    }
+</style>
+<script>
+    $(function(){
+        let $btn = $('button[type=button]');
+        $btn.click(function(){
+            alert("클릭되었습니다.");
+        });
+
+        let $form = $('form');
+        $form.submit(function(ev){
+            console.log("submit");
+            $form.attr("action", "/html/signup.jsp");
+            ev.preventDefault();
+        });
+
+        let $submit = $('button[type=submit]');
+        $submit.submit(function(ev){
+            console.log("submit button");
+            ev.preventDefault();
+        });
+
+        let $txt = $('form>input[type=text]');
+        $txt.click(function(){
+            console.log("txt클릭되었습니다.");
+        });
+
+        $txt.focus(function(){
+            console.log("txt focus");
+        });
+
+        $txt.keyup(function(){
+            $txt.val($txt.val().toUpperCase());
+        });
+        
+        let $check = $('form > fieldset > input[type=checkbox]');
+        let $span = $('form > fieldset > input[type=checkbox] + span');
+        let checkObjs = document.querySelectorAll("form > fieldset > input[type=checkbox]");
+        let $checkObjs = $(checkObjs);
+        
+        $check.each(function(index, elem){
+            $(elem).click(function(){
+                let fruit = $(this).next().html();
+                if($(this).prop('checked')){
+                    console.log($span.get(index).innerHTML + '선택됨');
+                }else{
+                    console.log($span.get(index).innerHTML + '선택안됨');
+                }
+            });
+
+        });
+
+        let $select1 = $('#subject1');
+        let $select2 = $('#subject2');
+
+        $select1.click(function(){
+            console.log('select1 click');
+        });
+
+        $select2.click(function(){
+            console.log('select2 click');
+        });
+
+        $select1.change(function(){
+            console.log("select change");
+            if($select1.val()=="java"){
+                $select2.html("<option>JDBC</option>");
+                $select2.html("<option>JSP</option>");
+                $select2.html("<option>SPRING</option>");
+                $select2.css("visibility", "visible");
+            }else if($select1.val()=="python"){
+            	$select2.html("<option>Django</option>");
+                $select2.html("<option>데이터분석</option>");
+                $select2.html("<option>머신러닝</option>");
+                $select2.css("visibility", "visible");
+
+            }else if($select1.val()=="html"){
+            	$select2.html("<option>CSS</option>");
+                $select2.html("<option>JavaScript</option>");
+                $select2.html("<option>TypeScript</option>");
+                $select2.css("visibility", "visible");
+
+            }
+        });
+        let select3 = document.createElement("select");
+        let option = document.createElement("option");
+        let $select3 = $(select3);
+        let $option = $(option);
+        $option.html("Oracle");
+        $form.append($select3);
+        $select3.append($option);
+
+        $select3.attr("id", "subject3");
+        
+
+
+
+    });
+</script>
+<body>
+    <form action="/html/login.jsp">
+        <input type="text" name="text">
+        <fieldset>
+            <input type="checkbox"><span>사과</span>
+            <input type="checkbox"><span>오렌지</span>
+            <input type="checkbox"><span>바나나</span>
+        </fieldset>
+        <select id="subject1">
+            <option disabled selected hidden> -- select an option -- </option>
+            <option vlaue="java">java</option>
+            <option value="python">python</option>
+            <option value="html">html</option>
+        </select>
+        <select id="subject2">
+        </select>
+        <button type="button">버튼</button>
+        <button type="submit">전송</button>
+    </form>
+    
+</body>
+</html>

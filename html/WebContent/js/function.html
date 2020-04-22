@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>function</title>
+<script>
+	var f1 = function(){
+		console.log("hello");
+	}
+	var f2 = function(p1, p2){
+		console.log(p1+p2);
+	}
+	f2(1,2);
+	function f3(p1, p2){
+		console.log(p1+p2);
+	}
+	f3(1,2);
+	
+	var v4 = function(){
+		console.log("inner");
+		return 1;
+	}
+	console.log(v4());
+	
+	let v5 = 1;
+	function dd(){
+		let a = 2;
+		console.log(a);
+	}
+	let a = 1;
+	console.log(a);
+</script>
+</head>
+<body>
+
+</body>
+</html>

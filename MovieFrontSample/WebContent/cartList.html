@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<link  rel="stylesheet" type="text/css" href="css/basic.css"  />
+<style type="text/css">
+.poster {
+	width : 150px;
+	height : 150px;
+	
+}
+
+a{text-decoration: none}
+
+.del:hover{
+	cursor:pointer;
+}
+
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		let totalPrice=0;
+		for(var i=0;i<localStorage.length;i++){
+				let pd_no= localStorage.key(i);
+				let pd = localStorage.getItem(pd_no);
+				let pdStr = pd.split(",");
+				let imgStr = '<img src="'+pdStr[1]+'" class="poster">';
+				let pd_name = pdStr[0];
+				let pd_price = pdStr[2];
+				let cartStr = `<tr id=${pd_no}><th>${imgStr}</th><th>${pd_no}</th><th>${pd_name}</th><th>${pd_price}</th><th class='del'>삭제</th></tr>`;
+				$('#content').append(cartStr);			
+				
+				totalPrice+=parseInt(pd_price);
+		}
+		
+		$('.del').each(function(index, obj){
+			$(obj).click(function(){
+				localStorage.removeItem($(obj).parent().attr('id'));
+				location.assign(location.href);
+			});
+			
+		});
+		
+		$('#price').html('총 주문가격 : ' +totalPrice);
+		
+	});
+</script>
+</head>
+<body>
+		<article class="main">
+		<section>
+			<table width="80%"  align="center"  >
+			<caption class="caption">찜 리스트</caption>
+			<thead>
+				<tr><th>이미지</th><th>상품번호</th><th>상품이름</th><th>가격</th><th>삭제</th></tr>
+			</thead>
+			<tbody id="content">
+			</tbody>
+			</table>
+		</section>
+		<section  class="toalprice" id="price">
+			
+		</section>
+		<section class="link">
+			<table   align="center">
+			<tr><td align="center">
+				<a href="">주문하러 가기</a> 
+				<a href="index.html">DVD LIST</a> 
+			</td></tr>
+			</table>
+		</section>
+		</article>
+</body>
+</html>

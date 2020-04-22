@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>classic.html</title>
+<style>
+
+</style>
+</head>
+<body>
+<h1>제목1</h1>
+<h5>제목5</h5>
+
+<p>목록<br>
+    <ol style="list-style-type: upper-roman;">
+        <li>사과</li>
+        <li>오렌지</li>
+        <li>바나나</li>
+    </ol>
+    <ul style="list-style-type: square;">
+        <li>사과</li>
+        <li>오렌지</li>
+        <li>바나나</li>
+    </ul>
+</p>
+
+<p>
+    표<br>
+    <table style="width:300px;border:1px solid;">
+        <thead>
+            <tr>
+                <th style="border: dotted;">1</th>
+                <th style="border: dotted;">2</th>
+                <th >3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: dotted;" colspan="2" rowspan="2">ab</td>
+                <td style="border: dotted;">c</td>
+            
+            </tr>
+            <tr>
+                <td style="border: dotted;">c</td>
+            
+            </tr>
+        </tbody>
+    </table>
+</p>
+
+<p id="p1">
+    단락<br>
+    단락1의 내용A<br>
+    단락1의 내용B<br>
+</p>
+<p id="p2">#P2</p>
+
+<p>Image</p>
+<!-- <img src="./images/NJ.png" alt="PictureOfGod.png" style="width: 300;height: 500;">
+<img src="../images/NJ.png" alt="PictureOfGod.png" style="width: 300;height: 500;"> -->
+<img src="/html/images/cat.jpg" alt="PictureOfGod" style="width: 100;height: 100;">
+<img src="http://localhost:8888/html/images/cat.jpg" alt="PictureOfGod" style="width: 100;height: 100;">
+<img src="/html/images/cat.jpg" alt="PictureOfGod" style="width: 100;height: 100;">
+
+<p>Google Cat
+    <a href="http://www.google.co.kr"><img src="/html/images/cat.jpg" alt=""></a>
+</p>
+<p>sub.html Cat
+    <a href="sub.html"><img src="/html/images/cat.jpg" alt=""></a>
+</p>
+<p>#p2 Cat
+    <a href="#p2"><img src="/html/images/cat.jpg" alt=""></a>
+</p>
+div태그는 블럭 요소 <br>
+span태그는 인라인 요소 <br>
+<ol>블럭요소 : 1줄사용 크기지정가능
+    <li>div</li>
+    <li>table, tr</li>
+    <li>h</li>
+    <li>ol, ul, li</li>
+</ol>
+
+<ol>인라인요소 : 1자동줄바꿈x 크기지정x content만큼 크기 자동지정
+    <li>span</li>
+    <li>a</li>
+</ol>
+<ol>인라인 블럭 요소 : 자동줄바꿈x 크기지정o
+    <li>img</li>
+    <li>td</li>
+</ol>
+<div style="border:1px solid;border-color:black;width:100px;height:100px;background-color:#DAC9FF;margin:5px;padding:3px;"></div>
+<div style="border:1px solid;border-color:aqua;width:100px;height:100px;background-color:aqua;margin:5px;padding:3px;"></div>
+<span style="border:1px solid;border-color:aqua;width:100px;height:100px;background-color:aqua;margin:5px;padding:3px;">span1</span>
+<span style="border:1px solid;border-color:aqua;width:100px;height:100px;background-color:aqua;">span2</span>
+
+<p>form관련태그<br>
+    <form action="">
+        <input type="text"><br>
+        <input type=""><br>
+        <input type="button"><br>
+        <input type="password"><br>
+        <input type="checkbox">사과&nbsp;&nbsp;
+        <input type="checkbox">오렌지&nbsp;&nbsp;
+        <input type="checkbox">바나나 <br>
+        <input type="radio">사과&nbsp;&nbsp;
+        <input type="radio">오렌지&nbsp;&nbsp;
+        <input type="radio">바나나 <br>
+        <input type="radio" name="1" id="radio1" checked>사과
+        <input type="radio" name="1" id="radio2">오렌지
+        <input type="radio" name="1" id="radio3">바나나<br>
+        HIDDEN:<input type="hidden" name="h" value="hiddenValue"><br>
+        <input type="button" value="button"><br>
+        <input type="submit" value="전송"><br>
+        <input type="reset" value="reset">
+    </form>
+</p>
+</body>
+</html>

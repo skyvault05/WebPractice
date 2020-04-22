@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/html/js/location.html</title>
+<script>
+    window.onload = function(){
+        let btObj = document.querySelector("button");
+        let clickCnt=0;
+        if(localStorage.getItem("clickCnt")==undefined){
+            clickCnt = localStorage.setItem("clickCnt", 0);
+        }else{
+            clickCnt = localStorage.getItem("clickCnt");
+        }
+        
+        btObj.onclick = function(){
+            clickCnt++;
+            console.log(clickCnt);
+            if(clickCnt%5==0){
+                location.href='../login.html';
+            }
+
+            localStorage.setItem("clickCnt", clickCnt);
+            
+        }
+    }
+</script>
+</head>
+
+<body>
+    <button>URL Change</button>
+</body>
+</html>

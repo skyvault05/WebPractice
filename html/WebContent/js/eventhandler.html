@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eventhandler.html</title>
+</head>
+<style>
+    #subject2 {
+        visibility: hidden;
+    }
+</style>
+<script>
+    //버튼이 클릭되면 메세지를 출력
+    function init(){
+        let btn = document.querySelector("button[type=button]");
+        btn.addEventListener("click", function(){
+            window.alert("클릭되었습니다.");
+
+            
+        });
+
+        let form = document.querySelector("form");
+        form.addEventListener("submit", function(event){
+            console.log("submit event");
+            // event.preventDefault();
+            form.action = "/html/signup.jsp";
+        });
+
+        let submit = document.querySelector("button[type=submit]");
+        submit.addEventListener("click", function(event){
+            console.log("submit button event");
+            // event.preventDefault();
+        })
+        
+        let txt = document.querySelector("form>input[type=text]");
+        txt.addEventListener("click", function(){
+            console.log("txt click");
+        });
+        txt.addEventListener("focus", function(){
+            console.log("txt focus");
+        });
+        txt.addEventListener("keyup", function(){
+            let str = this.value;
+            this.value = str.toUpperCase();
+        });
+
+        let checkObjs = document.querySelectorAll("form > fieldset > input[type=checkbox]");
+        let spanObjs = document.querySelectorAll("form > fieldset > input[type=checkbox] + span");
+
+        for(var i=0; i<checkObjs.length ; i++){
+            (function(a){
+                checkObjs[a].addEventListener("click", (function(){            
+                    if(checkObjs[a].checked){
+                    console.log(spanObjs[a].innerHTML + '선택됨');
+                    }else{
+                    console.log(spanObjs[a].innerHTML + '선택안됨');
+                    }
+               
+                }));
+            })(i);
+        }
+
+        let selectObj1 = document.querySelector("#subject1");
+        let selectObj2 = document.querySelector("#subject2");
+        selectObj1.addEventListener("click", function(){
+            console.log("select click");
+        });
+        selectObj1.addEventListener("change", function(){
+            console.log("select change");
+            if(this.value=="java"){
+                selectObj2.innerHTML = "<option>JDBC</option>";
+                selectObj2.innerHTML += "<option>JSP</option>";
+                selectObj2.innerHTML += "<option>SPRING</option>";
+                selectObj2.style.visibility="visible";
+            }else if(this.value=="python"){
+            	selectObj2.innerHTML = "<option>Django</option>";
+                selectObj2.innerHTML += "<option>데이터분석</option>";
+                selectObj2.innerHTML += "<option>머신러닝</option>";
+                selectObj2.style.visibility="visible";
+
+            }else if(this.value=="html"){
+            	selectObj2.innerHTML = "<option>CSS</option>";
+                selectObj2.innerHTML += "<option>JavaScript</option>";
+                selectObj2.innerHTML += "<option>TypeScript</option>";
+                selectObj2.style.visibility="visible";
+
+            }
+        });
+       
+       //DOM트리에 js로 객체 추가
+       let select3Obj = document.createElement("select");
+       form.append(select3Obj);
+
+       let optionObj = document.createElement("option");
+       let textObj = document.createTextNode("Oracle");
+       optionObj.append(textObj);
+
+       select3Obj.append(optionObj);
+
+       let attrObj = document.createAttribute("id");
+       attrObj.value = "subject3";
+
+       select3Obj.setAttributeNode(attrObj);
+    }   
+    window.addEventListener("load", init);
+</script>
+<body>
+    <form action="/html/login.jsp">
+        <input type="text" name="text">
+        <fieldset>
+            <input type="checkbox"><span>사과</span>
+            <input type="checkbox"><span>오렌지</span>
+            <input type="checkbox"><span>바나나</span>
+        </fieldset>
+        <select id="subject1">
+            <option disabled selected hidden> -- select an option -- </option>
+            <option vlaue="java">java</option>
+            <option value="python">python</option>
+            <option value="html">html</option>
+        </select>
+        <select id="subject2">
+        </select>
+        <button type="button">버튼</button>
+        <button type="submit">전송</button>
+    </form>
+    
+</body>
+</html>

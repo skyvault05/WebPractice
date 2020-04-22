@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestPage</title>
+    <script src="../lib/jquery-3.4.1.min.js"></script>
+
+    <style>
+        header {
+            border: 1px solid;
+            background-color: chartreuse;
+            padding: 0.2em;
+        }
+        nav{
+        	margin-top: 0.2em;
+        	height: 50px;
+            border: 1px solid;
+            background-color: grey;
+            line-height: 50px;
+            overflow: hidden;
+        }
+        nav > a {
+        	float:right;
+        	display: inline-block;
+        	margin-left:10px;
+            margin-right:10px;
+        }
+        section{
+        	overflow:hidden;
+            background-color:moccasin;
+            border: 1px solid;
+            margin-top: 0.2em;
+            padding: 0.2em;
+            
+        }
+        article{
+        	width:90%;
+        	float:left;
+        }
+        aside{
+        	width:8%;
+        	float:left;
+        }
+        
+        #article1{
+            width: 60%;
+            background-color: aqua;
+        }
+        #ad{
+        	margin-top:1px;
+        }
+        #article2{
+        	margin-top:1px;
+            width: 60%;
+            margin-top: 1em;
+            overflow-y: scroll;
+            background-color: aqua;
+        }
+        #infomation{
+            margin-top:1em;
+        }
+        
+        section > div{
+        	box-sizing: border-box;
+            border: 1px solid;
+            height:4em;
+            padding: 0.5em;
+        }
+        footer{
+            background-color: mediumpurple;
+            border: 1px solid;
+            margin-top: 0.2em;
+            padding: 0.2em;
+        }
+       
+        footer > ul{
+            list-style-type: none;
+        	padding: 0;
+        	overflow:hidden;
+        	margin: 0;
+        }
+        footer > ul > li {
+            float:left;
+        }
+        footer > ul > li > a {
+            display:block;
+            text-align: center;
+            text-decoration:black;
+            padding-right: 5px;
+        }
+    </style>
+    <script>
+        $(function(){
+        	/* $('nav>a[href="/html/viewCart.jsp"]').click(function(){
+        		let ajaxUrl = $(this).attr('href');
+        		$.ajax({
+        			url : ajaxUrl,
+        			data : 'prod_no="'++'"&quantity="'++'"';,
+        			success : function(){
+        				let newDiv = $('<div id="viewCart">');
+        				let newHtml = '<table>';
+        				newHtml += '<tr>';
+        				newHtml += '<td>';
+        				newHtml +=
+        				newHtml += '</td>';
+        				newHtml += '<td>';
+        				newHtml += '</td>';
+        				newHtml += '<td>';
+        				newHtml += '</td>';
+        				newHtml += '</tr>';
+        			}
+        		});
+        		return false;
+        	}); */
+        	
+        	$("section>article").on("click", 
+                    "div.product", 
+                    function(){
+					$.ajax({
+					  url: 'http://192.168.0.137:8888/html/productDetail.jsp',
+					  data : "prod_no=" + $(this).find('ul>li:first-child').html(),
+					  success:function(jsonObj){
+					     $('section>article').empty();//영역에 상세정보 보여주기
+					     if(jsonObj.status == 1){
+					    	var product = jsonObj.product;               
+					        var divObj = $('<div class="product_view_picture">');
+					        var innerDiv = '<img src="/html/images/'+product.prod_no+'.jpg" alt="'+product.prod_no+'" display="inline">';
+					        divObj.html(innerDiv);
+					        $('section>article').append(divObj);
+					        
+					        
+					        var divObj = $('<div class="product_view_detail">');
+					        var product = jsonObj.product;               
+					        var innerDiv = '<ul>';
+					        innerDiv += '<li>';   
+					        innerDiv += product.prod_no;
+					        innerDiv += '</li>';             
+					        innerDiv += '<li>';
+					        innerDiv += product.prod_name;
+					        innerDiv += '</li>';             
+					        innerDiv += '<li>';
+					        innerDiv += product.prod_price;
+					        innerDiv += '</li>';
+					        innerDiv += '<li>';
+					        innerDiv += '<input type="number" id="quantity" value="1" min="1" max="10">';
+					        innerDiv += '</li>';
+					        innerDiv += '<li>';
+					        innerDiv += '<button id="btnViewCart">장바구니 담기</button>';
+					        innerDiv += '</li>';
+					        innerDiv += '</ul>';
+					        divObj.html(innerDiv);
+					        $("section>article").append(divObj);
+					        
+					        $('#btnViewCart').click(function(){
+						    	$.ajax({
+							 		url: "/html/putCart.jsp",
+							 		data : "prod_no="+product.prod_no+"&"+
+							 				"quantity="+$('input[type=number]').val(),
+							 		success:function(jsonObj){
+							 			if(status==1){
+							 				console.log(jsonObj.msg);
+							 			}else{
+							 				console.log(jsonObj.msg);
+							 			}
+							 			
+							 		}
+						 		})
+						    }); 
+					     }else{
+					        alert(jsonObj.msg);
+					     }
+					  }
+					});
+        	});
+        	
+            $('nav>a').click(function(){
+                    // $(this).html("");
+                    $('section>article').empty();
+                    var href = $(this).attr('href');
+                    switch(href){
+                        case '/html/jq/login.html':                             
+                            $.ajax({
+                                url : '/html/jq/login.html',
+                                success : function(response){
+                                    $('section>article').html(response);
+                                }
+                            });
+                            break;
+                        case '/html/jq/signup.html' : 
+                            $.ajax({
+                                url : '/html/jq/signup.html',
+                                success : function(response){
+                                    $('section>article').html(response);                                   
+                                }
+                            });
+                            break;
+                        case '/html/logout.jsp':
+                        	$.ajax({
+                        		url : '/html/logout.jsp',
+                        		success : function(response){
+                       				$('#logout').hide();
+                                   	$('#orderList').hide();
+                                   	$('#signup').show();
+                                   	$('#login').show();
+                                   	$('#productList').trigger('click'); 
+                                   	alert(response.msg);                        			
+                        		}
+                        	});
+                        	break;
+                        case '/html/productList.jsp' :
+                        	$.ajax({
+                	        	url: "/html/productList.jsp",
+                	        	success: function(jsonArr){
+                	        		$(jsonArr).each(function(index, product){
+                	        			var divObj = $('<div class="product" style="float:left; display:inline-block;">');
+                	        			var innerDiv = '<ul>';
+                	        			innerDiv += '<li>';
+                	        			innerDiv += product.prod_no;
+                	        			innerDiv += '</li>';
+                	        			
+                	        			innerDiv += '<li>';
+                	        			innerDiv += product.prod_name;
+                	        			innerDiv += '</li>';
+                	        			
+                	        			innerDiv += '<li>';
+                	        			innerDiv += product.prod_price;
+                	        			innerDiv += '</li>';
+                	        			
+                	        			innerDiv += '<li>';
+                	        			innerDiv += product.prod_no;
+                	        			innerDiv += '</li>';
+                	        			
+                	        			innerDiv += '<li>';
+                	        			innerDiv += '<img src="/html/images/'+product.prod_no+'.jpg" alt="'+product.prod_no+'" display="inline">';
+                	        			innerDiv += '</li>';
+                	        			
+                	        			innerDiv += '</ul>';
+                	        			divObj.html(innerDiv);
+                	        			$('section > article').append(divObj);
+                	        		});
+                	        	}
+                	        });
+                        	
+                        	break;
+                        	
+                        case '/html/viewOrder.jsp':
+                			$.ajax({
+                				url: "/html/viewOrder.jsp",
+                				success:function(jsonObjArr){
+                					if(jsonObjArr.status==1){
+                						$('section>article').empty();
+                						var tableObj = $('<table>');
+                		 				var innertable = '<tr>';
+                		 				innertable += '<td>주문번호</td><td>주문일자</td><td>상품번호</td><td>상품명</td><td>상품가격</td><td>수량</td><td>금액</td></tr>';
+                						$(jsonObjArr.infos).each(function(index, e){
+                						innertable += '<tr><td>';
+                						innertable += e.order_no;
+                						innertable += '</td>';
+                						innertable += '<td>';
+                						innertable += e.order_dt;
+                						innertable += '</td>';
+                						
+                						$(e.lines).each(function(index,e2){
+                							var product = e2.product;
+                							
+                							if(index>0){
+                								innertable += '<tr>';
+                								innertable += '<td></td><td></td>';
+                								
+                							}
+                							innertable += '<td>';
+                					 		innertable += product.prod_no;
+                					 		innertable += '</td>';
+                					 		innertable += '<td>';
+                							innertable += product.prod_name;
+                							innertable += '</td>';
+                						 	innertable += '<td>';
+                							innertable += product.prod_price;
+                							innertable += '</td>';
+                							innertable += '<td>';
+                							innertable += e2.order_quantity;
+                							innertable += '</td>';							 		
+                							innertable += '<td>';
+                							innertable += product.prod_price * e2.order_quantity;
+                							innertable += '</td></tr>';
+                							}); //each2 함수 끝
+                														
+                						});//each1 함수 끝  
+                						}//if문 끝
+                						
+                						
+                					tableObj.html(innertable);
+                 					$("section>article").append(tableObj);
+                				}
+                			});
+                			
+                			
+                			break;
+                        case '/html/jq/mask.html':
+                        	location.href = '/html/jq/mask.html';
+                        	break;
+                        	
+                        case '/html/viewCart.jsp':
+                			$.ajax({
+                				url: '/html/viewCart.jsp',
+                				success : function(jsonObjArr){
+                					if(jsonObjArr.status==1){
+                						$('section>article').empty();
+                						var tableObj = $('<table>');
+                		 				var innertable = '<tr>';
+                		 				innertable += '<td>상품번호</td><td>상품명</td><td>상품가격</td><td>수량</td><td>예상금액</td></tr>';
+                		 				var sum = 0;
+                		 				$(jsonObjArr.products).each(function(index, e){
+                		 					
+                		 					
+                			 				var product = e.product;
+                			 				var quantity = e.quantity;
+                			 				innertable += '<tr>';
+                			 				sum = sum + (quantity * product.prod_price);
+                			 				innertable += '<td>';
+                			 				innertable += product.prod_no;
+                			 				innertable += '</td>';
+                			 				innertable += '<td>';
+                					 		innertable += product.prod_name;
+                					 		innertable += '</td>';
+                				 			innertable += '<td>';
+                							innertable += product.prod_price;
+                							innertable += '</td>';
+                					 		innertable += '<td>';
+                							innertable += quantity;
+                							innertable += '</td>';						 		
+                							innertable += '<td>';
+                							innertable += product.prod_price * quantity;
+                							innertable += '</td></tr>';
+                		 					
+                		 				});	
+                						innertable += '<tr><td>총금액:';
+                						innertable += sum;
+                						innertable += '</td></tr>';
+                	 					innertable += '<tr><td colspan="5"><button id="order">주문하기</button></td></tr>';
+                						
+                		 					tableObj.html(innertable);
+                		 					$("section>article").append(tableObj);
+                		 					
+                		 					
+                		 					$('#order').click(function(){
+                		 						
+                		 						$.ajax({
+                		 							url: "/html/addOrder.jsp",
+                		 							success:function(jsonObj){
+                		 								if(jsonObj.status==1){
+                		 									alert("주문성공");
+                		 								}else{
+                		 									alert("주문실패");
+                		 								}
+                		 								
+                		 							}
+                		 						});
+                		 					});
+                						
+                					}else{
+                						alert(jsonObjArr.msg);
+                					}
+                									
+                				}
+                				
+                			});
+                			break;
+
+                    }
+                return false; //preventDeafult(), stopPropagation()
+            });
+            
+            $('nav>a[href="/html/productList.jsp"]').trigger('click');
+        })
+
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Testpage Application</h1>
+    </header>
+    
+    <nav>    
+    	<a href="/html/jq/signup.html" id="signup" target="_blank">가입</a> 	
+        <a href="/html/jq/login.html" id='login'>로그인</a>       
+        <a href="/html/logout.jsp" id="logout" style="display:none;">로그아웃</a>       
+        <a href="/html/productList.jsp" id="productList">상품목록</a>
+        <a href="/html/viewCart.jsp">장바구니보기</a>
+        <a href="/html/viewOrder.jsp" id="orderList" style="display:none;">주문목록보기</a>
+        <a href="/html/jq/mask.html">공적마스크현황</a>
+        
+        
+        
+        
+    </nav>	
+    <section>        
+    	<article id="article">
+            <div id="article1">IOC 올림픽</div>
+            <div id="article2">야구<br>두산베어스<br>LG트윈스</div>
+        </article>
+        <aside>
+            <div id="ad"><img src="/html/images/cat.jpg" alt="adCat" style="max-width:100%;></div>            
+            <div id="infomation"><img src="/html/images/cat.jpg" alt="adCat" style="max-width:100%;"></div>
+        </aside>
+    </section>
+    <footer>
+        <ul>
+            <li><a href="#">이용약관 • </a></li>
+            <li><a href="#">운영정책 • </a></li>
+            <li><a href="#">청소년보호정책 • </a></li>
+            <li><a href="#">개인정보처리방침 • </a></li>
+            <li><a href="#">웹접근성안내 • </a></li>
+            <li><a href="#">고객센터</a></li>
+        </ul>
+        <span>경기도 성남시 분당구 산평동 대왕판교로 670 연락처: 031-606-9317</span>
+        
+        
+        
+        
+        
+    </footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+// window.addEventListener('load', function(){
+//     let lisObjs = document.querySelectorAll('div>ul>li');
+//     for(i=0; i<lisObjs.length; i++){
+//         console.log(lisObjs[i].innerHTML);
+//     };
+// });
+</script>
+
+<script>
+    // JQuery(document).ready(function(){});
+    // $(document).ready(function(){});
+    $(function(){
+        console.log('ready');
+        let liObjs = $('div>ul>li');
+        for(i=0; i<liObjs.length;i++){
+            let liobj = liObjs[i];
+            // console.log(liobj.innerHTML);
+            let jqObj = $(liobj);
+            console.log(jqObj.html());
+        }
+
+        $('div').css("background-color", "aqua");
+
+        
+    });
+</script>
+</head>
+<body>
+    <div>
+        <ul>
+            <li>first</li>
+            <li>second</li>
+            <li>third</li>
+        </ul>
+    </div>
+</body>
+</html>
